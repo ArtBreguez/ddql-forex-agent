@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "dukascopy-node": "^1.36.2"
+  }
+}
