@@ -11,7 +11,7 @@ from collections import deque
 class Agent:
 	def __init__(self, state_size, is_eval=False, model_name=""):
 		self.state_size = state_size # normalized previous days
-		self.action_size = 3 # sit, buy, sell
+		self.action_size = 3 # hold, buy, sell
 		self.memory = deque(maxlen=1000)
 		self.buy_inventory = []
 		self.sell_inventory = []

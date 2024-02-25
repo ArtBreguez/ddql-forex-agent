@@ -20,18 +20,24 @@ batch_size = 32
 hold_limit = 5
 hold_count = 0  # Contador para acompanhar quantas vezes o modelo realizou a ação "hold" consecutivamente
 
+max_steps_per_episode = 100
+max_loss_per_episode = -50
+
 for e in range(episode_count + 1):
     print("Episode " + str(e) + "/" + str(episode_count))
     state = getState(data, 0, window_size + 1)
 
     total_profit = 0
     agent.inventory = []
+    episode_step = 0
 
     for t in range(l):
         action = agent.act(state)
-
-        # sit
+        print("T:", t)
+        print("L:", l)
+        print("episode step:", episode_step)
         next_state = getState(data, t + 1, window_size + 1)
+            
         reward = 0
 
         if action == 1:  # buy
@@ -63,14 +69,16 @@ for e in range(episode_count + 1):
                 print("Hold: Punished!")
             print("Hold")
 
-        done = True if t == l - 1 else False
+        done = True if t == l - 1 or episode_step >= max_steps_per_episode - 1 or total_profit < max_loss_per_episode else False
         agent.memory.append((state, action, reward, next_state, done))
         state = next_state
+        episode_step += 1
 
         if done:
             print("--------------------------------")
             print("Total Profit: " + formatPrice(total_profit))
             print("--------------------------------")
+            break
 
         if len(agent.memory) > batch_size:
             agent.expReplay(batch_size)
