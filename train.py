@@ -20,7 +20,6 @@ batch_size = 32
 hold_limit = 5
 hold_count = 0  # Contador para acompanhar quantas vezes o modelo realizou a ação "hold" consecutivamente
 
-max_steps_per_episode = 100
 max_loss_per_episode = -50
 
 for e in range(episode_count + 1):
@@ -69,7 +68,7 @@ for e in range(episode_count + 1):
                 print("Hold: Punished!")
             print("Hold")
 
-        done = True if t == l - 1 or episode_step >= max_steps_per_episode - 1 or total_profit < max_loss_per_episode else False
+        done = True if t == l - 1 or total_profit < max_loss_per_episode else False
         agent.memory.append((state, action, reward, next_state, done))
         state = next_state
         episode_step += 1
