@@ -31,6 +31,7 @@ for e in range(episode_count + 1):
         action = agent.act(state)
         next_state = getState(data, t + 1, window_size + 1)
         reward = 0
+        profit = 0
 
         if action == 1:  # buy
             bought_price = data[t]
