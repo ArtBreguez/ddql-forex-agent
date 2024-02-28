@@ -29,8 +29,7 @@ for e in range(episode_count + 1):
 
     for t in range(l):
         action = agent.act(state)
-		next_state = getState(data, t + 1, window_size + 1)
-            
+        next_state = getState(data, t + 1, window_size + 1)
         reward = 0
 
         if action == 1:  # buy
@@ -67,7 +66,7 @@ for e in range(episode_count + 1):
 
         reward = profit
 
-        if action_count['buy'] > action_limit || action_count['hold'] > action_limit || action_count['sell'] > action_limit
+        if action_count['buy'] > action_limit or action_count['hold'] > action_limit or action_count['sell'] > action_limit:
             reward =+ -10
 
         done = True if t == l - 1 else False
