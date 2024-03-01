@@ -10,20 +10,30 @@ from collections import deque
 
 class Agent:
 	def __init__(self, state_size, is_eval=False, model_name=""):
-		self.state_size = state_size # normalized previous days
-		self.action_size = 3 # hold, buy, sell
+		self.state_size = state_size  # normalized previous days
+		self.action_size = 3  # hold, buy, sell
 		self.memory = deque(maxlen=1000)
 		self.buy_inventory = []
 		self.sell_inventory = []
 		self.model_name = model_name
 		self.is_eval = is_eval
+		self.bankroll = 50000
 
 		self.gamma = 0.95
 		self.epsilon = 1.0
 		self.epsilon_min = 0.01
 		self.epsilon_decay = 0.995
 
-		self.model = load_model("models/" + model_name) if is_eval else self._model()
+		if is_eval:
+			# Carrega o modelo se estiver em modo de avaliação
+			self.model = load_model(model_name)
+		else:
+			# Se não estiver em modo de avaliação, verifica se o modelo_name está vazio
+			if not model_name:
+				self.model = self._model()
+			else:
+				# Se um nome de modelo for fornecido, carrega o modelo correspondente
+				self.model = load_model(model_name)
 
 	def _model(self):
 		model = Sequential()
