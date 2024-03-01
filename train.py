@@ -90,7 +90,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
 
         elif action == 0:  # hold
             action_count['hold'] += 1
-            print("Hold count: " + action_count['hold'])
+            print("Hold count: " + str(action_count['hold']))
 
         print("Bankroll: " + formatPrice(agent.bankroll))
 
