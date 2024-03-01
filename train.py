@@ -42,7 +42,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
     total_profit = 0
     agent.buy_inventory = []
     agent.sell_inventory = []
-    agent.bankroll = 10000
+    agent.bankroll = 15000
 
     for t in range(l):
         action = agent.act(state)
@@ -59,7 +59,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             if len(agent.sell_inventory) > 0:
                 sold_price = agent.sell_inventory.pop(0)
                 profit = (sold_price - bought_price) * 1000
-                agent.bankroll += profit
+                agent.bankroll += profit + (bought_price * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
@@ -77,7 +77,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             if len(agent.buy_inventory) > 0:
                 bought_price = agent.buy_inventory.pop(0)
                 profit = (sold_price - bought_price) * 1000
-                agent.bankroll += profit
+                agent.bankroll += profit + (sold_price * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
@@ -88,11 +88,11 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
                     print("No enough money to sell")
                     reward += -5
 
-        print("Bankroll: " + formatPrice(agent.bankroll))
-
         elif action == 0:  # hold
             action_count['hold'] += 1
             print("Hold")
+
+        print("Bankroll: " + formatPrice(agent.bankroll))
 
         reward += profit
 
