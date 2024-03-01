@@ -17,7 +17,7 @@ class Agent:
 		self.sell_inventory = []
 		self.model_name = model_name
 		self.is_eval = is_eval
-		self.bankroll = 50000
+		self.bankroll = 15000
 
 		self.gamma = 0.95
 		self.epsilon = 1.0
@@ -25,14 +25,11 @@ class Agent:
 		self.epsilon_decay = 0.995
 
 		if is_eval:
-			# Carrega o modelo se estiver em modo de avaliação
 			self.model = load_model(model_name)
 		else:
-			# Se não estiver em modo de avaliação, verifica se o modelo_name está vazio
 			if not model_name:
 				self.model = self._model()
 			else:
-				# Se um nome de modelo for fornecido, carrega o modelo correspondente
 				self.model = load_model(model_name)
 
 	def _model(self):

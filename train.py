@@ -99,13 +99,11 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
         if action_count['hold'] > action_limit:
             reward += -10
 
-        # Finalizar o episódio se o agente não puder comprar ou vender
         if len(agent.buy_inventory) == 0 and len(agent.sell_inventory) == 0 and agent.bankroll < 1500:
             done = True
         else:
             done = False
 
-        # Finalizar o episódio se estivermos no último passo de tempo
         if t == l - 1:
             done = True
 
