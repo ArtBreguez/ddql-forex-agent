@@ -17,7 +17,7 @@ class Agent:
 		self.sell_inventory = []
 		self.model_name = model_name
 		self.is_eval = is_eval
-		self.bankroll = 15000
+		self.bankroll = 10000
 
 		self.gamma = 0.95
 		self.epsilon = 1.0

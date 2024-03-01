@@ -42,7 +42,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
     total_profit = 0
     agent.buy_inventory = []
     agent.sell_inventory = []
-    agent.bankroll = 15000
+    agent.bankroll = 10000
 
     for t in range(l):
         action = agent.act(state)
@@ -90,14 +90,14 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
 
         elif action == 0:  # hold
             action_count['hold'] += 1
-            print("Hold")
+            print("Hold count: " + action_count['hold'])
 
         print("Bankroll: " + formatPrice(agent.bankroll))
 
         reward += profit
 
         if action_count['hold'] > action_limit:
-            reward += -10
+            reward += -(action_count['hold'])
 
         if len(agent.buy_inventory) == 0 and len(agent.sell_inventory) == 0 and agent.bankroll < 1500:
             done = True
