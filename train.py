@@ -53,36 +53,36 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
 
         if action == 1:  # buy
             bought_price = data[t]
-            print("Buy: " + formatPrice(bought_price))
+            print("Buy: " + formatPrice(bought_price[3]))
             action_count['hold'] = 0
             if len(agent.sell_inventory) > 0:
                 sold_price = agent.sell_inventory.pop(0)
-                profit = (sold_price - bought_price) * 1000
-                agent.bankroll += profit + (bought_price * 1000)
+                profit = (sold_price - bought_price[3]) * 1000
+                agent.bankroll += profit + (bought_price[3] * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
-                if agent.bankroll >= bought_price * 1000:
-                    agent.bankroll -= bought_price * 1000
-                    agent.buy_inventory.append(bought_price)
+                if agent.bankroll >= bought_price[3] * 1000:
+                    agent.bankroll -= bought_price[3] * 1000
+                    agent.buy_inventory.append(bought_price[3])
                 else:
                     print("No enough money to buy")
                     reward += -5
 
         elif action == 2:  # sell
             sold_price = data[t]
-            print("Sell: " + formatPrice(sold_price))
+            print("Sell: " + formatPrice(sold_price[3]))
             action_count['hold'] = 0
             if len(agent.buy_inventory) > 0:
                 bought_price = agent.buy_inventory.pop(0)
-                profit = (sold_price - bought_price) * 1000
-                agent.bankroll += profit + (sold_price * 1000)
+                profit = (sold_price[3] - bought_price) * 1000
+                agent.bankroll += profit + (sold_price[3] * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
-                if agent.bankroll >= sold_price * 1000:
-                    agent.bankroll -= sold_price * 1000
-                    agent.sell_inventory.append(sold_price)
+                if agent.bankroll >= sold_price[3] * 1000:
+                    agent.bankroll -= sold_price[3] * 1000
+                    agent.sell_inventory.append(sold_price[3])
                 else:
                     print("No enough money to sell")
                     reward += -5
