@@ -105,12 +105,11 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
         if t == l - 1:
             done = True
 
-        agent.remember(state, action, reward, next_state, done)  # Corrigido para o método remember
+        agent.remember(state, action, reward, next_state, done) 
         state = next_state
 
         if len(agent.memory) > batch_size:
-            agent.replay()  # Corrigido para o método experience_replay
-
+            agent.replay()  
         if done:
             print("--------------------------------")
             print("Total Profit: " + formatPrice(total_profit))
@@ -119,4 +118,6 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             break
 
     if e % 10 == 0:
-        agent.model.save("models/model_ep" + str(e))
+        model_save_path = "models/model_ep" + str(e)
+        agent.model.save(model_save_path)
+        agent.target_model.save(model_save_path + "_target")

@@ -21,8 +21,24 @@ class DDQN_Agent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.model_name = model_name
-        self.model = load_model(model_name) if is_eval else self._build_model()
-        self.target_model = load_model(model_name) if is_eval else self._build_model()
+        if is_eval:
+            self.model = load_model(model_name)
+            self.target_model = load_model(model_name  + "_target")
+        else:
+            if model_name:
+                self.model = self.load_model(model_name)
+                self.target_model = self.load_model(model_name  + "_target")
+            else:
+                self.model = self._build_model()
+                self.target_model = self._build_model()
+
+    def load_model(self, model_name):
+        try:
+            return load_model(model_name)
+        except Exception as e:
+            print("Error loading model:", str(e))
+            return None
+
 
     def _build_model(self):
         model = Sequential()
@@ -61,9 +77,6 @@ class DDQN_Agent:
         for i in range(len(target_weights)):
             target_weights[i] = weights[i]
         self.target_model.set_weights(target_weights)
-
-    def load(self, name):
-        self.model.load_weights(name)
 
     def save(self, name):
         self.model.save_weights(name)
