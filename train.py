@@ -33,7 +33,8 @@ l = len(data) - 1
 batch_size = 32
 
 action_limit = 5
-action_count = {'hold': 0} 
+action_count = {'hold': 0}
+transaction_fee = 0.1 # 0.1$ taxa de transação
 
 for e in range(episode_offset, episode_offset + episode_count + 1):
     print("Episode " + str(e) + "/" + str(episode_offset + episode_count))
@@ -57,8 +58,8 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             action_count['hold'] = 0
             if len(agent.sell_inventory) > 0:
                 sold_price = agent.sell_inventory.pop(0)
-                profit = (sold_price - bought_price[3]) * 1000
-                agent.bankroll += profit + (bought_price[3] * 1000)
+                profit = ((sold_price - bought_price[3]) * 1000) - transaction_fee
+                agent.bankroll += profit + (bought_price[3] * 1000) 
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
@@ -75,7 +76,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             action_count['hold'] = 0
             if len(agent.buy_inventory) > 0:
                 bought_price = agent.buy_inventory.pop(0)
-                profit = (sold_price[3] - bought_price) * 1000
+                profit = ((sold_price[3] - bought_price) * 1000) - transaction_fee
                 agent.bankroll += profit + (sold_price[3] * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
