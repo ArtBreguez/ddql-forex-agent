@@ -2,7 +2,6 @@ import numpy as np
 import math
 import pandas as pd
 
-# Função para formatar o preço
 def formatPriceList(price_list):
     formatted_prices = []
     for price in price_list:
@@ -12,22 +11,19 @@ def formatPriceList(price_list):
 def formatPrice(n):
     return ("-$" if n < 0 else "$") + "{:.10f}".format(abs(n))
 
-# Função para obter os dados OHLC do arquivo CSV
 def getStockDataVec(file_path):
     df = pd.read_csv(file_path)
     return df[['Open', 'High', 'Low', 'Close', 'Volume']].values.tolist()
 
-# Função sigmoid
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-# Função para obter o estado
 def getState(data, t, n):
     d = t - n + 1
     block = data[d:t + 1] if d >= 0 else -d * [data[0]] + data[0:t + 1]  # Pad with t0
     res = []
     for i in range(n - 1):
-        # atribuímos 60% ao preço de fechamento (Close) e 10% a cada uma das outras componentes
+        # 60% ao preço de fechamento (Close) e 10% a cada uma das outras componentes
         weight_close = 0.6
         weight_open = 0.1
         weight_high = 0.1

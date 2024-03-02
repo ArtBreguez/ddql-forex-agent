@@ -11,8 +11,6 @@ if len(sys.argv) != 4:
 
 stock_name, window_size, episode_count = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
 
-print("window size", int(sys.argv[2]))
-
 models_dir = "models/"
 try:
     latest_model = max(glob.glob(models_dir + "model_ep*"), key=os.path.getctime)
@@ -20,10 +18,10 @@ except Exception:
     print("Could not find latest model")
     latest_model = None
 if latest_model:
-    print("Carregando modelo mais recente:", latest_model)
+    print("Latest model:", latest_model)
     episode_offset = int(latest_model.split("model_ep")[1])
     agent = Agent(window_size, model_name=latest_model)
-    print("Modelo carregado com sucesso!")
+    print("Latest Model Loaded!")
 else:
     episode_offset = 0
     agent = Agent(window_size)
