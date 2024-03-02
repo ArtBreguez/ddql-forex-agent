@@ -26,9 +26,11 @@ class DDQN_Agent:
             self.target_model = load_model(model_name  + "_target")
         else:
             if model_name:
+                print("Loading Model: ", model_name)
                 self.model = self.load_model(model_name)
                 self.target_model = self.load_model(model_name  + "_target")
             else:
+                print("Creating Model")
                 self.model = self._build_model()
                 self.target_model = self._build_model()
 
