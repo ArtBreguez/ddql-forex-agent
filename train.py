@@ -2,7 +2,7 @@ import numpy as np
 import sys
 import os
 import glob
-from agent.agent import Agent
+from agent.agent import DDQN_Agent  # Importar o novo agente Double DQN
 from functions import *
 
 if len(sys.argv) != 4:
@@ -20,11 +20,11 @@ except Exception:
 if latest_model:
     print("Latest model:", latest_model)
     episode_offset = int(latest_model.split("model_ep")[1])
-    agent = Agent(window_size, model_name=latest_model)
+    agent = DDQN_Agent(window_size, model_name=latest_model)  # Usar o novo agente DDQN
     print("Latest Model Loaded!")
 else:
     episode_offset = 0
-    agent = Agent(window_size)
+    agent = DDQN_Agent(window_size)  # Usar o novo agente DDQN
 
 data = getStockDataVec(stock_name)
 l = len(data) - 1
@@ -32,7 +32,7 @@ batch_size = 32
 
 action_limit = 5
 action_count = {'hold': 0}
-transaction_fee = 0.1 # 0.1$ taxa de transação
+transaction_fee = 0.1  # Taxa de transação
 
 for e in range(episode_offset, episode_offset + episode_count + 1):
     print("Episode " + str(e) + "/" + str(episode_offset + episode_count))
@@ -57,7 +57,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             if len(agent.sell_inventory) > 0:
                 sold_price = agent.sell_inventory.pop(0)
                 profit = ((sold_price - bought_price[3]) * 1000) - transaction_fee
-                agent.bankroll += profit + (bought_price[3] * 1000) 
+                agent.bankroll += profit + (bought_price[3] * 1000)
                 total_profit += profit
                 print("Profit: " + formatPrice(profit))
             else:
@@ -105,11 +105,11 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
         if t == l - 1:
             done = True
 
-        agent.memory.append((state, action, reward, next_state, done))
+        agent.remember(state, action, reward, next_state, done)  # Corrigido para o método remember
         state = next_state
 
         if len(agent.memory) > batch_size:
-            agent.expReplay(batch_size)
+            agent.replay()  # Corrigido para o método experience_replay
 
         if done:
             print("--------------------------------")
