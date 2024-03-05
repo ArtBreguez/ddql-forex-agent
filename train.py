@@ -97,7 +97,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
         if action_count['hold'] > action_limit:
             reward += -(action_count['hold'])
 
-        if len(agent.buy_inventory) == 0 and len(agent.sell_inventory) == 0 and agent.bankroll < 1500:
+        if len(agent.buy_inventory) == 0 and len(agent.sell_inventory) == 0 and agent.bankroll < 5000:
             done = True
         else:
             done = False
@@ -117,7 +117,7 @@ for e in range(episode_offset, episode_offset + episode_count + 1):
             print("--------------------------------")
             break
 
-    if e % 10 == 0:
+    if e % 5 == 0:
         model_save_path = "models/model_ep" + str(e)
         agent.model.save(model_save_path)
         agent.target_model.save(model_save_path + "_target")
